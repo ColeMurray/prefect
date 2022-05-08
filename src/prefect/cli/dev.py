@@ -310,7 +310,9 @@ def container(bg: bool = False, name="prefect-dev", api: bool = True):
 
 
 @dev_app.command()
-def kubernetes_manifest():
+def kubernetes_manifest(
+    image_tag: str = None,
+):
     """
     Generates a Kubernetes manifest for development.
 
@@ -326,7 +328,7 @@ def kubernetes_manifest():
     manifest = template.substitute(
         {
             "prefect_root_directory": prefect.__root_path__,
-            "image_name": get_prefect_image_name(),
+            "image_name": image_tag or get_prefect_image_name(),
         }
     )
     print(manifest)
